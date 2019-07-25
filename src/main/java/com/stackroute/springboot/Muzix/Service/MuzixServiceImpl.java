@@ -6,6 +6,7 @@ import com.stackroute.springboot.Muzix.Service.MuzixService;
 import com.stackroute.springboot.Muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -57,4 +58,12 @@ public class MuzixServiceImpl implements MuzixService {
         muzixRepository.deleteById(trackId);
 //        return deleteTrack(trackId);
     }
+
+
+    @Override
+    public List<Track> trackByName(String name) {
+        List<Track> trackList= muzixRepository.findTitleByName(name);
+        return trackList;
+    }
+
 }

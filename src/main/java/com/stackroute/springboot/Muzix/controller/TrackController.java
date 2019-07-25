@@ -5,6 +5,7 @@ import com.stackroute.springboot.Muzix.model.Track;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.EventListener;
 
 
 import java.util.List;
@@ -53,11 +54,18 @@ public class TrackController {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
         }
 
+
     }
 
-    @DeleteMapping("track")
+    @DeleteMapping("/track/{id}")
     public void deleteTrack(@PathVariable int trackId) {
         muzixService.deleteTrack(trackId);
+    }
+
+    @GetMapping("/track/{name}")
+    public ResponseEntity<?> trackByName(@PathVariable String name){
+
+        return new ResponseEntity<List<Track>>(muzixService.trackByName(name),HttpStatus.OK);
     }
 
 
