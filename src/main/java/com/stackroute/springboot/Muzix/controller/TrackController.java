@@ -1,6 +1,7 @@
 package com.stackroute.springboot.Muzix.controller;
 
 import com.stackroute.springboot.Muzix.Service.MuzixService;
+import com.stackroute.springboot.Muzix.exception.TrackAlreadyExistsException;
 import com.stackroute.springboot.Muzix.model.Track;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class TrackController {
             muzixService.saveTrack(track);
             responseEntity = new ResponseEntity<String >("Successfully created", HttpStatus.CREATED);
         }
-        catch (Exception ex){
+        catch (TrackAlreadyExistsException ex){
             responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
         }
         return  responseEntity;

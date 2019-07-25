@@ -1,12 +1,11 @@
 package com.stackroute.springboot.Muzix.Service;
 
+import com.stackroute.springboot.Muzix.exception.TrackAlreadyExistsException;
+import com.stackroute.springboot.Muzix.exception.TrackNotFoundException;
 import com.stackroute.springboot.Muzix.model.Track;
 import com.stackroute.springboot.Muzix.repository.MuzixRepository;
-import com.stackroute.springboot.Muzix.Service.MuzixService;
-import com.stackroute.springboot.Muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -25,12 +24,18 @@ public class MuzixServiceImpl implements MuzixService {
 
     //method for save the track
     @Override
-    public Track saveTrack(Track track) {
+    public Track saveTrack(Track track) throws TrackAlreadyExistsException {
+      if(muzixRepository.existsById(track.getTrackId())){
+        throw new TrackAlreadyExistsException("Track Already Exists");
 
-        Track saveTrack = muzixRepository.save(track);
+      }
+      Track saveTrack = muzixRepository.save(track);
+
+//
+//      if(saveTrack==null){
+//          throw new TrackNotFoundException("")
+//      }
         return saveTrack;
-
-
     }
 
 
@@ -42,9 +47,13 @@ public class MuzixServiceImpl implements MuzixService {
 
     //method for update a new track
     @Override
-    public boolean updateTrack(Track track,int trackId){
+    public boolean updateTrack(Track track,int trackId) throws TrackNotFoundException{
         Optional<Track> track1= muzixRepository.findById(trackId);
-        if(!track1.isPresent()){
+
+        if(muzixRepository.save(track)==null){
+            throw new TrackNotFoundException("Track not found");
+        }
+        else if(!track1.isPresent()){
             return false;
         }
         track.setTrackId(trackId);
