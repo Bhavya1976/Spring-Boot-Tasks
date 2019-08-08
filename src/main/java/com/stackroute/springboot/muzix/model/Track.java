@@ -7,27 +7,22 @@ import javax.persistence.Id;
 
 @Entity
 public class Track {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int trackId;
    private String trackName;
     private String comments;
 
-
     //default constructor
     public Track() {
     }
 
-
-     //constructor with parameters
+    //constructor with parameters
     public Track(String trackName, String comments) {
         //this.trackId = trackId;
         this.trackName = trackName;
         this.comments = comments;
     }
-
 
     //getter and setter methods
     public int getTrackId() {
