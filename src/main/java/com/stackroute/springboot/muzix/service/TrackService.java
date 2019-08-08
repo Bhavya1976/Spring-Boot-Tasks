@@ -10,7 +10,7 @@ public interface TrackService {
     Track saveTrack(Track track);
     List<Track> getAllTracks();
     Track updateTrack(Track track);
-    Track deleteTrack(int id);
+    Track deleteTrack(Track track);
     Optional<Track> findById(int id);
     public List<Track> trackByName(String name);
 }
