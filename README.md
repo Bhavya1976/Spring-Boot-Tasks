@@ -1,2 +1,1 @@
-
-Performing the CRUD operations for a RESTFUL application using the h2 database
+Generating the API documentation using the Swagger2
