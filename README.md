@@ -1,2 +1,2 @@
-
-Performing the crud operations for a RESTFUL application using the h2 database
+Add an endpoint to search trackByName. Understand @Query and parameter passing to
+@Query
