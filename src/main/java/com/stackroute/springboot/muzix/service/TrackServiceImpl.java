@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class TrackServiceImpl implements TrackService {
 
-    TrackRepository trackRepository;
+   private TrackRepository trackRepository;
 
     @Autowired
     //Constructor for MuzixServiceImpl
@@ -46,10 +46,10 @@ public class TrackServiceImpl implements TrackService {
 
     }
     @Override
-    public Track deleteTrack(int trackId) {
+    public Track deleteTrack(Track track) {
 
-        trackRepository.deleteById(trackId);
-        return deleteTrack(trackId);
+        trackRepository.deleteById(track.getTrackId());
+        return track;
     }
     @Override
     public Optional<Track> findById(int id) {
