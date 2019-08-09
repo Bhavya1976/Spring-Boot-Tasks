@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(value="api/v1")
 public class TrackController {
 
-    TrackService trackService;
+   private  TrackService trackService;
 
     //constructor
     @Autowired
@@ -24,27 +24,28 @@ public class TrackController {
     //Zero parameterized constructor
     public TrackController(){}
 
+
+    private ResponseEntity responseEntity;
     //controller for save track
     @PostMapping("/savetrack")
     public ResponseEntity<?> saveTrack ( @RequestBody Track track){
-        ResponseEntity responseEntity;
+
         try{
                 trackService.saveTrack(track);
-                responseEntity = new ResponseEntity<String >("Successfully created", HttpStatus.CREATED);
+                responseEntity = new ResponseEntity(track, HttpStatus.CREATED);
         }
         catch (Exception ex){
-              responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.EXPECTATION_FAILED);
+              responseEntity = new ResponseEntity(ex.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
-        return  responseEntity;
+        return  responseEntity;//returns the saved track and httpStatus code
     }
 
     //controller for the get track
+
     @GetMapping("/gettrack")
     public ResponseEntity<?> getAllTracks(){
-
         //getting all tracks
-        return new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
-
+        return new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.OK);//returns the tracks and httpStatus as OK
     }
 
     //controller for update track
@@ -52,26 +53,28 @@ public class TrackController {
     public ResponseEntity<?> updateTrack( @RequestBody Track track) {
 
         try {
-            trackService.updateTrack(track);
-            return new ResponseEntity<String>("updated successfully",HttpStatus.CREATED);
+            Track updatedTrack = trackService.updateTrack(track);
+            responseEntity = new ResponseEntity(updatedTrack,HttpStatus.OK);
         }
         catch (Exception e){
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
-
+        return responseEntity;//returns the both updated track and httpStatus
     }
 
     // controller for delete method
 
-    @DeleteMapping("/muzix")
-  public ResponseEntity<?> deleteTrack(@RequestBody int trackId) {
-        ResponseEntity responseEntity;
+    @DeleteMapping("/deletetrack")
+    public ResponseEntity<?> deleteTrack(@RequestBody Track track) {
+
         try {
-            trackService.deleteTrack(trackId);
-            responseEntity = new ResponseEntity("Successfully deleted", HttpStatus.OK);
+
+            Track deletedTrack = trackService.deleteTrack(track);
+
+            responseEntity = new ResponseEntity(deletedTrack, HttpStatus.OK);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
         }
-        return responseEntity;
+        return responseEntity;// returns the both deleted track and httpStatus
     }
 }
