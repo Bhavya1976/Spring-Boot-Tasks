@@ -57,7 +57,7 @@ public class TrackController {
             responseEntity = new ResponseEntity(updatedTrack,HttpStatus.OK);
         }
         catch (Exception e){
-            responseEntity = new ResponseEntity<String>(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+            responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
         return responseEntity;//returns the both updated track and httpStatus
     }
@@ -73,7 +73,7 @@ public class TrackController {
 
             responseEntity = new ResponseEntity(deletedTrack, HttpStatus.OK);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
         }
         return responseEntity;// returns the both deleted track and httpStatus
     }
