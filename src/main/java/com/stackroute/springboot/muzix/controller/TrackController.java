@@ -5,6 +5,8 @@ import com.stackroute.springboot.muzix.exception.TrackNotFoundException;
 import com.stackroute.springboot.muzix.service.TrackService;
 import com.stackroute.springboot.muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="api/v1")
+@PropertySource("classpath:application.properties")
 public class TrackController {
 
    private  TrackService trackService;
+
+    @Value("${exceptionMsg}")
+    String message;
+
+
 
     //constructor
     @Autowired
