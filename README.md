@@ -1,2 +1,1 @@
-
-Performing the CRUD operations for a RESTFUL application using the h2 database
+Create custom exceptions TrackNotFoundException, TrackAlreadyExistsException in a exceptions package. Perform appropriate exception handling and propagation Back.
