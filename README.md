@@ -1,2 +1,5 @@
 
-Performing the CRUD operations for a RESTFUL application using the h2 database
+Create seed data to pre-fill the database with track
+information whenever the application starts. Use both approaches:
+Approach 1: ApplicationListener<ContextRefreshedEvent>
+Approach 2: CommandLineRunner (Find out how it differs from ApplicationRunner)

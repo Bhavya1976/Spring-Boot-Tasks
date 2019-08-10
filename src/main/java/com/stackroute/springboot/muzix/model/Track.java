@@ -18,8 +18,8 @@ public class Track {
     }
 
     //constructor with parameters
-    public Track(String trackName, String comments) {
-        //this.trackId = trackId;
+    public Track(int trackId, String trackName, String comments) {
+        this.trackId = trackId;
         this.trackName = trackName;
         this.comments = comments;
     }
