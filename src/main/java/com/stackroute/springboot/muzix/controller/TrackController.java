@@ -1,5 +1,7 @@
 package com.stackroute.springboot.muzix.controller;
 
+import com.stackroute.springboot.muzix.exception.TrackAlreadyExistsException;
+import com.stackroute.springboot.muzix.exception.TrackNotFoundException;
 import com.stackroute.springboot.muzix.service.TrackService;
 import com.stackroute.springboot.muzix.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +33,15 @@ public class TrackController {
     public ResponseEntity<?> saveTrack ( @RequestBody Track track){
 
         try{
-                trackService.saveTrack(track);
+                Track savedTrack = trackService.saveTrack(track);
+
                 responseEntity = new ResponseEntity(track, HttpStatus.CREATED);
         }
-        catch (Exception ex){
-              responseEntity = new ResponseEntity(ex.getMessage(),HttpStatus.EXPECTATION_FAILED);
+        catch (TrackAlreadyExistsException ex){
+              responseEntity = new ResponseEntity(ex.getMessage(),HttpStatus.CONFLICT);
+        }catch(Exception ex){
+
+            responseEntity = new ResponseEntity(ex.getMessage(),HttpStatus.EXPECTATION_FAILED);
         }
         return  responseEntity;//returns the saved track and httpStatus code
     }
@@ -45,7 +51,11 @@ public class TrackController {
     @GetMapping("/gettrack")
     public ResponseEntity<?> getAllTracks(){
         //getting all tracks
-        return new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.OK);//returns the tracks and httpStatus as OK
+        try {
+            return new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.OK);//returns the tracks and httpStatus as OK
+        } catch (TrackNotFoundException e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     //controller for update track
@@ -56,8 +66,8 @@ public class TrackController {
             Track updatedTrack = trackService.updateTrack(track);
             responseEntity = new ResponseEntity(updatedTrack,HttpStatus.OK);
         }
-        catch (Exception e){
-            responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.EXPECTATION_FAILED);
+        catch (TrackNotFoundException e){
+            responseEntity = new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
         }
         return responseEntity;//returns the both updated track and httpStatus
     }
@@ -72,8 +82,8 @@ public class TrackController {
             Track deletedTrack = trackService.deleteTrack(track);
 
             responseEntity = new ResponseEntity(deletedTrack, HttpStatus.OK);
-        } catch (Exception e) {
-            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+        } catch (TrackNotFoundException e) {
+            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;// returns the both deleted track and httpStatus
     }
